@@ -1,22 +1,27 @@
 import express from "express";
 import { PrismaClient } from '@prisma/client'
 const app = express();
-const prismaclient = new PrismaClient();
+const prismaClient = new PrismaClient();
 
 app.get("/", async (req, res) => {
-    const data = await prismaclient.user.findMany()
-        res.json({ data ,message: "get end point" })
+   
+    const data = await prismaClient.user.findMany();
+    res.json({
+        data
+    })
 })
+
 app.post("/", async (req, res) => {
-    // const name = req.body.name;
-    const { username, name } = req.body;
-    await prismaclient.user.create({
+
+    await prismaClient.user.create({
         data: {
-            username: username,
-            name: name
+            username: Math.random().toString(),
+            name: Math.random().toString()
         }
     })
-    res.json({ message: "user created" })
+    res.json({
+        "message": "post endpoint"
+    })
 })
 
 app.listen(3000)
